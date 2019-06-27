@@ -1,4 +1,4 @@
-# Source Monitoring/Memory with TV viewing
+# Source Memory Monitoring with TV viewing
 
 # Summary
 Participants view a series (7 videos) of television advertisements followed by a series (7 videos) of TV programme clips. 7+7 video clips = 14 clips (1 block), 10 blocks overall (70 video clips). Half of the advertisemetns (experimental blocks) in the study (35 ad/programme pais) are conceptually linked, that is, the advertised objects appear conceptually somewhere in the within-block programmes (outside of the main scene focus). The other half contains ad/programme inter-block video clips that contain no conceptual link (control blocks).
