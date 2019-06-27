@@ -400,8 +400,8 @@ def video_display():
         print(inter_block_counter)
         inter_block_counter+=1
        
-    win.flip(.1)
-    core.wait()
+    win.flip()
+    core.wait(.1)
         
 def remove():
     
@@ -419,7 +419,7 @@ def remove():
     
 def check_exit_keypress():
     
-    '''This function quits exist the experiment with 'escape' key and saves a dataFile
+    '''This function stops the experiment with 'escape' key and saves a dataFile
     upon exit'''
     
     keys = event.getKeys('escape')
