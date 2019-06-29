@@ -1,4 +1,5 @@
-# import necessary libraries
+#!/usr/bin/env python3
+
 from psychopy import visual, core, gui, event
 from psychopy.data import getDateStr
 import random, csv
@@ -6,7 +7,7 @@ import os
 
 ''' for testing purposes '''
 # randomise blocks/vids 
-shuffle_blocks = "yes"
+shuffle_blocks = "no"
 # set number of blocks to display 
 blocks = (10)
 # display image labels?
@@ -14,14 +15,15 @@ image_labels = "yes"
 
 ''' set stimulus directories '''
 # target videos
-target_prog_dir   = "../Target Group/prog"
-target_ad_dir     = "../Target Group/ad"
-# advert videos
-control_prog_dir  = "../Control Group/prog"
-control_ad_dir    = "../Control Group/ad"
+target_prog_dir   = "/home/jon/experiments/Source_Memory/Videos/Target Group/prog"
+target_ad_dir     = "/home/jon/experiments/Source_Memory/Videos/Target Group/ad"
+
+# control videos
+control_prog_dir  = "/home/jon/experiments/Source_Memory/Videos/Control Group/prog"
+control_ad_dir    = "/home/jon/experiments/Source_Memory/Videos/Control Group/ad"
 
 # create window and set mouse visibility
-win = visual.Window([900,900], color=("black"), colorSpace='rgb', allowGUI=True, monitor='testMonitor', units='deg', fullscr=False)
+win = visual.Window([800,800], color=("black"), colorSpace='rgb', allowGUI=True, monitor='testMonitor', units='deg', fullscr=False)
 win.mouseVisible = False
 
 # Open a writeable data file for our output .csv
@@ -48,12 +50,11 @@ def stimulus_indexing():
     make_slice = Slicemaker()
     target_index = [make_slice[0:3], make_slice[0:3], make_slice[0:3], make_slice[0:3], make_slice[0:3],
                     make_slice[0:4], make_slice[0:4], make_slice[0:4], make_slice[0:4], make_slice[0:4]]  
-
     control_index = [make_slice[0:4], make_slice[0:4], make_slice[0:4], make_slice[0:4], make_slice[0:4], 
                      make_slice[0:3], make_slice[0:3], make_slice[0:3], make_slice[0:3], make_slice[0:3]]
-                   
+                     
     block_index = [1,2,3,4,5,6,7,8,9,10]
-                   
+    
     if shuffle_blocks == "yes":
         temp = list(zip(target_index, control_index, block_index))
         random.shuffle(temp)
@@ -73,16 +74,17 @@ def get_files(directory1, directory2, directory3, directory4):
     all_ad_targets   = sorted(os.listdir(directory2))
     all_prog_controls = sorted(os.listdir(directory3))
     all_ad_controls   = sorted(os.listdir(directory4))
-
-    # randomly shuffle target stimuli lists in allignment
-    temp = list(zip(all_prog_targets, all_ad_targets))
-    random.shuffle(temp)
-    all_prog_targets, all_ad_targets = map(list, zip(*temp))
     
-    # randomly shuffle control simuli lists in alignment
-    temp = list(zip(all_prog_controls, all_ad_controls))
-    random.shuffle(temp)
-    all_prog_controls, all_ad_controls = map(list, zip(*temp))
+    # randomly shuffle target stimuli lists in allignment
+    if shuffle_blocks=="yes":
+        temp = list(zip(all_prog_targets, all_ad_targets))
+        random.shuffle(temp)
+        all_prog_targets, all_ad_targets = map(list, zip(*temp))
+        
+        # randomly shuffle control simuli lists in alignment
+        temp = list(zip(all_prog_controls, all_ad_controls))
+        random.shuffle(temp)
+        all_prog_controls, all_ad_controls = map(list, zip(*temp))
     
 def get_block(index1, index2):
     
@@ -92,20 +94,17 @@ def get_block(index1, index2):
     
     global target_prog_subset, target_ad_subset, control_prog_subset, control_ad_subset
     global target_prog_names, target_ad_names, control_prog_names, control_ad_names
-    
+
     target_prog_subset = []
     target_ad_subset   = []
-    
     target_prog_subset   = all_prog_targets[index1]
     target_ad_subset     = all_ad_targets[index1]
-    
     control_prog_subset  = all_prog_controls[index2]
     control_ad_subset    = all_ad_controls[index2]
 
     # set stim names
     target_prog_names   = []
     target_ad_names     = []
-    
     control_prog_names  = []
     control_ad_names    = []
     
@@ -129,7 +128,6 @@ def make_stims():
     # create video stimuli and assign to respective lists
     target_prog_stims   = [visual.MovieStim3(win, target_prog_dir + "/" + stim) for stim in target_prog_subset[:]]
     target_advert_stims = [visual.MovieStim3(win, target_ad_dir + "/" + stim) for stim in target_ad_subset[:]]
-    
     control_prog_stims   = [visual.MovieStim3(win, control_prog_dir + "/" + stim) for stim in control_prog_subset[:]]
     control_advert_stims = [visual.MovieStim3(win, control_ad_dir + "/" + stim) for stim in control_ad_subset[:]]
 
@@ -159,64 +157,39 @@ def display_order(block):
     display_list = []
     
     if block == 1:
-        display_list.append(control_advert_stims[0])
-        display_list.append(control_advert_stims[1])
-        display_list.append(control_advert_stims[2])
-        display_list.append(control_advert_stims[3])
-        
-        display_list.append(target_advert_stims[2])
-        display_list.append(target_advert_stims[1])
-        display_list.append(target_advert_stims[0])
-        
-        display_list.append(target_prog_stims[0])
-        display_list.append(target_prog_stims[1])
-        display_list.append(target_prog_stims[2])
-        
-        display_list.append(control_prog_stims[0])
-        display_list.append(control_prog_stims[1])
-        display_list.append(control_prog_stims[2])
-        display_list.append(control_prog_stims[3])
-        
+        for stim in control_advert_stims:
+            display_list.append(stim)
+        for stim in target_advert_stims[::-1]:
+            display_list.append(stim)
+        for stim in target_prog_stims:
+            display_list.append(stim)
+        for stim in control_prog_stims:
+            display_list.append(stim)
+
     elif block == 2:
         display_list.append(control_advert_stims[0])
-        
-        display_list.append(target_advert_stims[2])
-        display_list.append(target_advert_stims[1])
-        display_list.append(target_advert_stims[0])
-        
-        display_list.append(control_advert_stims[1])
-        display_list.append(control_advert_stims[2])
-        display_list.append(control_advert_stims[3])
-        
-        display_list.append(control_prog_stims[0])
-        display_list.append(control_prog_stims[1])
-        display_list.append(control_prog_stims[2])
-        
-        display_list.append(target_prog_stims[0])
-        display_list.append(target_prog_stims[1])
-        display_list.append(target_prog_stims[2])
-        
+        for stim in target_advert_stims[::-1]:
+            display_list.append(stim)
+        for stim in control_advert_stims[1:]:
+            display_list.append(stim)
+        for stim in control_prog_stims[:3]:
+            display_list.append(stim)
+        for stim in  target_prog_stims:
+            display_list.append(stim)
         display_list.append(control_prog_stims[3])
         
     elif block == 3:
         display_list.append(target_advert_stims[0])
-        
-        display_list.append(control_advert_stims[0])
-        display_list.append(control_advert_stims[1])
-        display_list.append(control_advert_stims[2])
-        display_list.append(control_advert_stims[3])
-        
-        display_list.append(target_advert_stims[1])
-        display_list.append(target_advert_stims[2])
-        
+        for stim in control_advert_stims:
+            display_list.append(stim)
+        for stim in target_advert_stims[1:]:
+            display_list.append(stim)
+        #for stim in target_prog_stims[0:-1]:
+            #display_list.append(stim)
         display_list.append(target_prog_stims[2])
         display_list.append(target_prog_stims[1])
-        
-        display_list.append(control_prog_stims[0])
-        display_list.append(control_prog_stims[1])
-        display_list.append(control_prog_stims[2])
-        display_list.append(control_prog_stims[3])
-        
+        for stim in control_prog_stims:
+            display_list.append(stim)
         display_list.append(target_prog_stims[0])
         
     elif block == 4:
@@ -379,27 +352,23 @@ def video_display():
     inter_block_counter=1
     inter_block_pause=2
     for video in display_list:
-        
         video_name.text=video.name
-        
+
         if inter_block_counter==8:
             win.flip()
             core.wait(inter_block_pause)
-            
         dataFile.write('%s, %s\n'%(block_index[0], video.name))
         shouldflip = video.play()
+
         while video.status != visual.FINISHED:
             shouldflip = video.draw()
-            
             if image_labels=="yes":
                 video_name.draw()
-                
             check_exit_keypress()
             win.flip()
-        
         print(inter_block_counter)
         inter_block_counter+=1
-       
+
     win.flip()
     core.wait(.1)
         
