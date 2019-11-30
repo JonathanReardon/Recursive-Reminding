@@ -62,8 +62,13 @@ word_list = ["Pasta",               "Coffee",           "Prawns",               
              "Fan",                 "Deodorant",        "Fabric softener",           "Instant noodle",           "Tissues",
              "Smoking patches",     "Peanut Butter",    "Cereal bar",                "Bottled water",            "Fish fingers"]
 
-random.shuffle(word_list)
+# shuffle word list in alignment with index order list
+list_index = range(1,len(word_list), 1)
+temp = list(zip(word_list, list_index))
+random.shuffle(temp)
+word_list, list_index = map(list, zip(*temp))
 
+# function to make intro text stim and wait for user keypress before moving on
 def intro():
     
     intro_stim = visual.TextStim(win, text=r"PRESS SPACEBAR TO BEGIN", pos=(0,0), depth=0, wrapWidth=None, 
@@ -74,6 +79,7 @@ def intro():
         intro_stim.draw()
         win.flip() 
         
+# function to make outro text stim and wait for user keypress before moving on
 def outro():
     
     outro_stim = visual.TextStim(win, text=r"THANK YOU", pos=(0,0), depth=0, wrapWidth=None, 
