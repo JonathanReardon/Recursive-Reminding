@@ -145,7 +145,9 @@ for counter in range(len(prog_videos)):
                 event.clearEvents()
                 
                 while response == True:
+                    number.draw()
                     verbal.draw()
+                    spacebar.draw()
                     win.flip()
                     
                     # keyboard presses to check for
