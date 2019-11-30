@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
+# import libraries
 from psychopy import visual, core, gui, event
 from psychopy.data import getDateStr
 import random, csv
 import os
 
+# create window and set mouse cursor visibililty off
 win = visual.Window([1200,800], color=("black"), colorSpace='rgb', allowGUI=True, monitor='testMonitor', units='deg', fullscr=True)
 win.mouseVisible = False
 
@@ -27,6 +29,7 @@ win.fullscr=True
 win.winHandle.set_fullscreen(True)
 win.flip()
 
+# create text lists
 TARGETS = ["Pasta",               "Coffee",           "Prawns",                    "Paint",                    "Pre-prepared food delivery",
           "Cake",                "Tablet",           "Vacuum cleaner",            "Diamond ring",             "Hair clippers",
           "Dating Site",         "Blender",          "Phone",                     "Pizza",                    "Washing Machine",
@@ -96,6 +99,7 @@ def outro():
         outro_stim.draw()
         win.flip() 
     
+# make various text stimuli
 recall_stim = visual.TextStim(win, text=r"WAS THIS OBJECT IN AN", pos=(-2.3, 2.0), depth=0, wrapWidth=None, 
             color=("white"), opacity=1.0, contrast=1.0, units='deg', ori=0.0, height=1, antialias=True)
 advert_word = visual.TextStim(win, text=r"ADVERT?", pos=(6.1, 2.0), depth=0, wrapWidth=None, 
@@ -115,6 +119,7 @@ dataFile = open(current_time +'.csv', 'w')
 writer = csv.writer(dataFile)
 writer.writerow(["word name", "keypress", "accuracy"])
 
+# display intro 
 intro()
 
 for word in word_list:
@@ -150,9 +155,9 @@ for word in word_list:
                 win.flip()
                 core.wait(1)
                 
-                if stim.name in WORD_LIST_ORDER[0:40]:
+                if stim.name in TARGETS:
                     keylog=1
-                else:
+                elif stim.name in CONTROLS:
                     keylog=0
                 display=False
                 
@@ -165,9 +170,9 @@ for word in word_list:
                 win.flip()
                 core.wait(1)
                 
-                if stim.name in WORD_LIST_ORDER[0:40]:
+                if stim.name in TARGETS:
                     keylog=0
-                else:
+                elif stim.name in CONTROLS:
                     keylog=1
                 
                 confirm=True
@@ -177,6 +182,7 @@ for word in word_list:
                     spacebar_stim.color="red"
                     confirm_stim.draw()
                     spacebar_stim.draw()
+                    number.draw()
                    
                     confirm_keys = event.getKeys("space")
                     if "space" in confirm_keys:
@@ -198,8 +204,8 @@ for word in word_list:
       
     event.clearEvents()
         
-    dataFile.write('%s,%s,%s\n'%(stim.name, thisKey, keylog))
-    print('%s,%s,%s\n'%(stim.name, thisKey, keylog))
+    dataFile.write('%s,%s,%s,%s,%s,%s\n'%(expInfo.get('participant'), stim.name, list_index[counter], thisKey, keylog))
+    print('%s,%s,%s,%s,%s\n'%(expInfo.get('participant'), stim.name, list.index[counter], thisKey, keylog))
     core.wait(0.001)
     
 outro()
