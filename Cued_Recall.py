@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from psychopy import visual, core, gui, event
 from psychopy.data import getDateStr
 import random, csv
@@ -5,6 +7,25 @@ import os
 
 win = visual.Window([1200,800], color=("black"), colorSpace='rgb', allowGUI=True, monitor='testMonitor', units='deg', fullscr=True)
 win.mouseVisible = False
+
+# minimizes window so that we can take participant information (through gui dialog)
+win.fullscr = False
+win.winHandle.set_fullscreen(False)
+win.winHandle.minimize()
+win.flip()
+
+# Participant naming 
+expInfo = {'participant': ''}
+dlg = gui.DlgFromDict(dictionary=expInfo)
+if dlg.OK == False:
+    core.quit()
+    
+# maximise window again ready to begin
+win.winHandle.maximize()
+win.winHandle.activate()
+win.fullscr=True
+win.winHandle.set_fullscreen(True)
+win.flip()
 
 TARGETS = ["Pasta",               "Coffee",           "Prawns",                    "Paint",                    "Pre-prepared food delivery",
           "Cake",                "Tablet",           "Vacuum cleaner",            "Diamond ring",             "Hair clippers",
