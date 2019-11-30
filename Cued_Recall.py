@@ -6,31 +6,41 @@ import os
 win = visual.Window([1200,800], color=("black"), colorSpace='rgb', allowGUI=True, monitor='testMonitor', units='deg', fullscr=True)
 win.mouseVisible = False
 
-WORD_LIST_ORDER = ["1. Pasta", "2. Coffee", "3. Prawns", "4. Paint", "5. Pre-prepared food delivery",
-                   "6. Cake", "7. Tablet", "8. Vacuum cleaner", "9. Diamond ring", "10. Hair clipper",
-                   "11. Dating Site", "12. Blender", "13. Phone", "14. Pizza", "15. Washing Machine",
-                   "16. Headphones", "17. Sausages", "18. Fitness Watch", "19. Tea", "20. Chinese sauces",
-                   "21. Indian curry sauces", "22. Beer", "23. Postal delivery service", "24. Bread", "25. Lasagne",
-                   "26. Porridge", "27. Pie", "28. Chocolate", "29. Nappies", "30. Milk",
-                   "31. Condom", "32. Oven", "33. Jigsaw puzzle", "34. Camera", "35. Suits",
-                   "36. Toothbrush", "37. Greetings card", "38. Shoes", "39. Video game", "40. Boiler",
-                   "41. Sofa", "42. Swimwear", "43. Pen", "44. Wetsuit", "45. Glasses", 
-                   "46. Crisps", "47. Radio station", "48. Rucksack", "49. Car", "50. Dog food",
-                   "51. Cider", "52. TV", "53. Business card printing", "54. Home security system", "55. Lipstick",
-                   "56. Lamb", "57. Ice cream", "58. Fridge", "59. Wine", "60. Orange juice"]
+TARGETS = ["Pasta",               "Coffee",           "Prawns",                    "Paint",                    "Pre-prepared food delivery",
+          "Cake",                "Tablet",           "Vacuum cleaner",            "Diamond ring",             "Hair clippers",
+          "Dating Site",         "Blender",          "Phone",                     "Pizza",                    "Washing Machine",
+          "Headphones",          "Sausages",         "Fitness Watch",             "Tea",                      "Chinese sauces",
+          "Indian curry sauces", "Beer",             "Postal delivery service",   "Bread",                    "Lasagne",
+          "Porridge",            "Pie",              "Chocolate",                 "Nappies",                  "Milk",
+          "Condoms",             "Oven",             "Jigsaw puzzle",             "Camera",                   "Suits",
+          "Toothbrush",          "Greetings card",   "Shoes",                     "Video game",               "Boiler"]
+                   
+CONTROLS = ["Sofa",                "Swimwear",         "Pen",                       "Wetsuit",                  "Glasses", 
+            "Crisps",              "Radio station",    "Rucksack",                  "Car",                      "Dog food",
+            "Cider",               "TV",               "Business card printing",    "Home security system",     "Lipstick",
+            "Lamb",                "Ice cream",        "Fridge",                    "Wine",                     "Orange juice",
+            "Conservatory",        "Bleach",           "BBQ",                       "Chicken Breast",           "Search Engine",
+            "Kebab",               "Conditioner",      "Streaming service",         "High heels",               "Film",
+            "Fan",                 "Deodorant",        "Fabric softener",           "Instant noodle",           "Tissues",
+            "Smoking patches",     "Peanut Butter",    "Cereal bar",                "Bottled water",            "Fish fingers"]
 
-word_list = ["1. Pasta", "2. Coffee", "3. Prawns", "4. Paint", "5. Pre-prepared food delivery",
-             "6. Cake", "7. Tablet", "8. Vacuum cleaner", "9. Diamond ring", "10. Hair clipper",
-             "11. Dating Site", "12. Blender", "13. Phone", "14. Pizza", "15. Washing Machine",
-             "16. Headphones", "17. Sausages", "18. Fitness Watch", "19. Tea", "20. Chinese sauces",
-             "21. Indian curry sauces", "22. Beer", "23. Postal delivery service", "24. Bread", "25. Lasagne",
-             "26. Porridge", "27. Pie", "28. Chocolate", "29. Nappies", "30. Milk",
-             "31. Condom", "32. Oven", "33. Jigsaw puzzle", "34. Camera", "35. Suits",
-             "36. Toothbrush", "37. Greetings card", "38. Shoes", "39. Video game", "40. Boiler",
-             "41. Sofa", "42. Swimwear", "43. Pen", "44. Wetsuit", "45. Glasses", 
-             "46. Crisps", "47. Radio station", "48. Rucksack", "49. Car", "50. Dog food",
-             "51. Cider", "52. TV", "53. Business card printing", "54. Home security system", "55. Lipstick",
-             "56. Lamb", "57. Ice cream", "58. Fridge", "59. Wine", "60. Orange juice"]
+word_list = ["Pasta",               "Coffee",           "Prawns",                    "Paint",                    "Pre-prepared food delivery",
+             "Cake",                "Tablet",           "Vacuum cleaner",            "Diamond ring",             "Hair clippers",
+             "Dating Site",         "Blender",          "Phone",                     "Pizza",                    "Washing Machine",
+             "Headphones",          "Sausages",         "Fitness Watch",             "Tea",                      "Chinese sauces",
+             "Indian curry sauces", "Beer",             "Postal delivery service",   "Bread",                    "Lasagne",
+             "Porridge",            "Pie",              "Chocolate",                 "Nappies",                  "Milk",
+             "Condoms",             "Oven",             "Jigsaw puzzle",             "Camera",                   "Suits",
+             "Toothbrush",          "Greetings card",   "Shoes",                     "Video game",               "Boiler",
+             "Sofa",                "Swimwear",         "Pen",                       "Wetsuit",                  "Glasses", 
+             "Crisps",              "Radio station",    "Rucksack",                  "Car",                      "Dog food",
+             "Cider",               "TV",               "Business card printing",    "Home security system",     "Lipstick",
+             "Lamb",                "Ice cream",        "Fridge",                    "Wine",                     "Orange juice",
+             "Conservatory",        "Bleach",           "BBQ",                       "Chicken Breast",           "Search Engine",
+             "Kebab",               "Conditioner",      "Streaming service",         "High heels",               "Film",
+             "Fan",                 "Deodorant",        "Fabric softener",           "Instant noodle",           "Tissues",
+             "Smoking patches",     "Peanut Butter",    "Cereal bar",                "Bottled water",            "Fish fingers"]
+
 random.shuffle(word_list)
 
 def intro():
